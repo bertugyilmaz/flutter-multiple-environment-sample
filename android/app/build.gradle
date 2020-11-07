@@ -25,6 +25,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+project.ext.envConfigFiles = [
+    developmentdebug: ".env.development",
+    developmentrelease: ".env.development",
+    uatdebug: ".env.uat",
+    uatrelease: ".env.uat",
+    productiondebug: ".env.production",
+    productionrelease: ".env.production",
+]
+
+apply from: project(':flutter_config').projectDir.getPath() + "/dotenv.gradle"
+
 android {
     compileSdkVersion 28
 
@@ -37,19 +48,31 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.medium_environments_sample"
+        applicationId project.env.get("APP_ID")
         minSdkVersion 16
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        resValue "string", "app_name", project.env.get("APP_NAME")
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions "flavors"
+
+    productFlavors {
+        development {
+            dimension "flavors"
+        }
+        uat {
+            dimension "flavors"
+        }
+        production {
+            dimension "flavors"
         }
     }
 }
