@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-void main() {
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
   FlutterConfig.loadEnvVariables();
   runApp(App());
 }
@@ -12,11 +13,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      body: Container(
+      home: Scaffold(
+        body: Container(
           child: Center(
-        child: Text("Hellöğğ"),
-      )),
-    ));
+            child: Text("Hellöğğ"),
+          ),
+        ),
+      ),
+    );
   }
 }
